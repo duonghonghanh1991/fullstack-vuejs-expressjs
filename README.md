@@ -1,4 +1,5 @@
 # Vuejs Expressjs
+- Fullstack web app using vuejs expressjs and sqlite
 
 ## Client
 - cd client

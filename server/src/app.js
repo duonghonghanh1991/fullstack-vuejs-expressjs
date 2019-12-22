@@ -3,7 +3,9 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 
-const PORT = process.env.PORT || 8081;
+const { sequelize } = require('./models')
+const config = require('./config/config');
+const routes = require('./routes');
 
 const app = express();
 
@@ -15,12 +17,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use(cors());
+app.use(cors())
 
-app.post("/register", (req, res) => {
-  res.send({
-    message: `Hello ${req.body.email}! Your user was registered! Have fun!`
-  });
-})
+routes(app)
 
-app.listen(PORT, () => console.log(`Server is running at the port ${PORT}`));
+sequelize.sync()
+  .then(() => {
+    app.listen(config.PORT, () => console.log(`Server is running at the port ${config.PORT}`));
+  })
+
